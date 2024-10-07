@@ -2,6 +2,7 @@ package ch.heigvd.dai.ios.text;
 
 import ch.heigvd.dai.ios.Writable;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * A class that writes text files. This implementation write the file byte per byte. It manages the
@@ -11,6 +12,27 @@ public class TextFileWriter implements Writable {
 
   @Override
   public void write(String filename, int sizeInBytes) {
-    throw new UnsupportedOperationException("Please remove this exception and implement this method.");
+    //throw new UnsupportedOperationException("Please remove this exception and implement this method.");
+
+    Writer writer = null;
+
+    try {
+      writer = new FileWriter(filename, StandardCharsets.UTF_8);
+
+      for (int i = 0; i < sizeInBytes; i++){
+        writer.write(i);
+      }
+
+    } catch (IOException e) {
+      System.err.println("Error -> " + e.getMessage());
+    } finally {
+      if (writer != null) {
+        try {
+          writer.close();
+        } catch (IOException e) {
+          System.out.println("Error closing writer -> " + e.getMessage());
+        }
+      }
+    }
   }
 }
